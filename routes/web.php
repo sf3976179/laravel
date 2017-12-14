@@ -26,8 +26,6 @@ Route::post('post', 'PostController@store');
 Route::get('/user_register', 'Register\HomeController@register')->name('user_register');
 // 后台注册数据提交路由
 Route::post('/user_register','Register\HomeController@register_submit')->name('user_register');
-// 提交数据报错路由
-Route::get('post/form_submit','Register\HomeController@create');
 // 登录提交路由
 Route::post('/login_in', 'Register\HomeController@loginin')->name('login_in');
 
@@ -39,11 +37,14 @@ Route::group(['middleware' => 'index'], function () {
   Route::get('/index/article/{id}', 'Index\IndexController@article_info');
 });
 
-require_once __DIR__ . '/admin_interface.php'; //后台接口调用
+// 验证报错路由
+Route::get('post/error','HomeController@create');
+
 
 /******************************************此下面为新路由***********************************************************/
 
 require_once __DIR__ . '/admin_login.php'; //后台登录路由
+require_once __DIR__ . '/admin_interface.php'; //后台接口调用
 
 
 
@@ -76,3 +77,7 @@ Route::get('/user/{id}', 'Register\UserController@show');
 // ]]);
 
 Auth::routes();
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

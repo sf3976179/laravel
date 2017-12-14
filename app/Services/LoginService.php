@@ -2,13 +2,19 @@
 
 namespace App\Services;
 
+use App\Repositories\LoginRepository;
 class LoginService extends BaseService
 {
-    protected $doctagRepository;
+    protected $loginRepository;
 
-    public function __construct()
+    public function __construct(LoginRepository $loginRepository)
     {
+        $this->loginRepository = $loginRepository;
+    }
 
+    public function getUserInfo(array $data)
+    {
+        return $this->loginRepository->getUserInfo($data);
     }
 
 

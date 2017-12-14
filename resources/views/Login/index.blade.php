@@ -26,7 +26,7 @@
             <div class='icon'>
                 <img alt="" src="{{ asset('css/login/img/user_icon_copy.png') }}">
             </div>
-            <input name="login" placeholder='用户名' maxlength="16" type='text' autocomplete="off" value="123456"/>
+            <input name="login" placeholder='用户名' maxlength="20" type='text' autocomplete="off" value="123456"/>
             <div class='validation'>
                 <img alt="" src="{{ asset('css/login/img/tick.png') }}">
             </div>
@@ -54,7 +54,6 @@
         </div>
     </div>
     <div class='success'>
-
 
     </div>
     <div class='disclaimer'>
@@ -160,11 +159,13 @@
                 ErroAlert('请输入正确验证码');
             } else {
                 //认证中..
-                fullscreen();
+//                fullscreen();
                 $('.login').addClass('test'); //倾斜特效
                 setTimeout(function () {
                     $('.login').addClass('testtwo'); //平移特效
                 }, 300);
+
+                //向右等待中效果
                 setTimeout(function () {
                     $('.authent').show().animate({ right: -320 }, {
                         easing: 'easeOutQuint',
@@ -180,71 +181,48 @@
                 //用户名、密码
                 var JsonData = { login: login, pwd: pwd};
 
-                $.post("{{ URL::to('is_login') }}",{'_token':'{{csrf_token()}}','user_data':JsonData},function(res)
-                {
-                    if(data == 2)
-                    {
-                        $("#pass1").css("display","block");
-                        $("input[name='email']").on('focus',function(){
-                            $("#pass1").css("display","none");
-                        });
-                    }else if(data == 1){
-                        $("#pass2").css("display","block");
-                        $("input[name='email']").on('focus',function(){
-                            $("#pass2").css("display","none");
-                        });
+                $.ajax( {
+                    url:"{{ URL::to('is_login') }}",
+                    data:{
+                        _token : '{{csrf_token()}}',
+                        user_data : JsonData
+                    },
+                    type:'post',
+                    cache:false,
+                    dataType:'json',
+                    success:function(data) {
+                        submit_result();
+                        var str = '';
+                        if(data.code == '200'){
+                            str += "<span>登录成功，3秒后跳转</span>";
+                            $('.success').html(str);
+                            setTimeout(function () {
+                                window.location.href = "{{ route('admin_index') }}";
+                            }, 5000);
+                        }else{
+                            console.log(data);
+                            str += "<span>登录失败，请重新登录，3秒后跳转</span>";
+                            str += '<br/>'
+                            str += '如无反应，请点击<a href="{{ url('/admin') }}">这里</a>';
+                            $('.success').html(str);
+                            setTimeout(function () {
+                                window.location.href = "{{ route('admin') }}";
+                            }, 5000);
+                        }
+                    },
+                    error : function(data) {
+                        submit_result();
+                        var str = '';
+                        str += "<span>访问错误请重新登录，3秒后跳转</span>";
+                        str += '<br/>'
+                        str += '如无反应，请点击<a href="{{ url('/admin') }}">这里</a>';
+                        $('.success').html(str);
+                        setTimeout(function () {
+                            window.location.href = "{{ route('admin') }}";
+                        }, 5000);
                     }
                 });
 
-
-
-
-
-
-
-                //此处做为ajax内部判断
-                var url = "";
-                if(JsonData.login == truelogin && JsonData.pwd == truepwd){
-                    url = "Ajax/Login";
-                }else{
-                    url = "Ajax/LoginFalse";
-                }
-
-
-                AjaxPost(url, JsonData,
-//                    function () {
-//                        //ajax加载中
-//                    },
-                    function (data) {
-                        //ajax返回
-                        //认证完成
-                        setTimeout(function () {
-                            $('.authent').show().animate({ right: 90 }, {
-                                easing: 'easeOutQuint',
-                                duration: 600,
-                                queue: false
-                            });
-                            $('.authent').animate({ opacity: 0 }, {
-                                duration: 200,
-                                queue: false
-                            }).addClass('visible');
-                            $('.login').removeClass('testtwo'); //平移特效
-                        }, 2000);
-                        setTimeout(function () {
-                            $('.authent').hide();
-                            $('.login').removeClass('test');
-//                            if (data.Status == 'ok') {
-                                //登录成功
-                                $('.login div').fadeOut(100);
-                                $('.success').fadeIn(1000);
-                                $('.success').html(data.Text);
-                                //跳转操作
-
-//                            } else {
-//                                AjaxErro(data);
-//                            }
-                        }, 2400);
-                    })
             }
         })
     })
@@ -273,6 +251,29 @@
             responseTime: 50,
             responseText: {"Status":"Erro","Erro":"账号名或密码或验证码有误"}
         });
+    }
+
+    //提交后效果切换
+    function submit_result(){
+        setTimeout(function () {
+            $('.authent').show().animate({ right: 90 }, {
+                easing: 'easeOutQuint',
+                duration: 600,
+                queue: false
+            });
+            $('.authent').animate({ opacity: 0 }, {
+                duration: 200,
+                queue: false
+            }).addClass('visible');
+            $('.login').removeClass('testtwo'); //平移特效
+        }, 2000);
+        setTimeout(function () {
+            $('.authent').hide();
+            $('.login').removeClass('test');
+            $('.login div').fadeOut(100);
+            $('.success').fadeIn(1000);
+//            $('.success').html(data.Text);
+        }, 2400);
     }
 </script>
 

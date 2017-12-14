@@ -38,25 +38,24 @@ class HomeController extends Controller
 
     // 注册提交验证
     public function register_submit(Request $request){
-        $validator = Validator::make($request->all(), [
-            'email' => 'required|unique:users|max:255',
-            'password'=>'required|min:6|confirmed',
-            'password_confirmation' => 'required|min:6'
-        ]);
-
+//        $validator = Validator::make($request->all(), [
+//            'email' => 'required|unique:users|max:255',
+//            'password'=>'required|min:6|confirmed',
+//            'password_confirmation' => 'required|min:6'
+//        ]);
         // 如果不满足验证请求返回错误信息
-        if ($validator->fails()) {
-            return redirect('post/form_submit')
-                        ->withErrors($validator)
-                        ->withInput();
-        }else{
+//        if ($validator->fails()) {
+//            return redirect('post/form_submit')
+//                        ->withErrors($validator)
+//                        ->withInput();
+//        }else{
           $result = $request->all();
           DB::table('users')->insert([
             'name' => $result['name'],
-            'email' => $result['email'],
+            'user_login' => $result['email'],
             'password' => Hash::make($result['password'])
           ]);
-        }
+//        }
     }
 
     // 登陆提交验证
@@ -66,11 +65,11 @@ class HomeController extends Controller
       // DB::insert('insert into users (name,email,password) values (11',$result['email'],$result['password'].')', [1, 'Dayle@163.com','123456']);
 
       // 查询一条数据
-      $user = DB::table('users')->where('email','=',$result['email'])->first();
+      $user = DB::table('users')->where('user_login','=',$result['email'])->first();
       //判断登录当前密码,密码匹配
       if (Hash::check($result['password'], $user->password))
       {
-        $request->session()->put('email',$user->email);
+        $request->session()->put('email',$user->user_login);
         $request->session()->put('name',$user->name);
         $request->session()->put('user_id',$user->id);
         $request->session()->put('user_image_name',$user->user_image);
@@ -84,9 +83,16 @@ class HomeController extends Controller
       }
     }
 
-    //报错信息返回方法
+    /**
+     * 数据验证错误方法
+     *
+     * @access public
+     * @param
+     * @since 2017/12/11 SF
+     * @return json
+     */
     public function create(){
-        return view('register.error');
+        return view('error');
     }
 
 }

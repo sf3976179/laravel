@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers\Login;
 
-use Hash;
+//use Hash;
+use Validator; //验证类
 use App\Services\LoginService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -39,11 +40,24 @@ class IndexController extends Controller
      * @return json
      */
     public function is_login(Request $request){
-        $validator = \Validator::make($request->input(), $this->validateRule->getRule('account.login'));
-        var_dump($request->all());die;
+//        user_data[login]:123456
+//        user_data[pwd]:12345612331
+        $data_info = array(
+            'user_login' => $request->input('user_data')['login'],
+            'password' => $request->input('user_data')['pwd']
+        );
+        $validator = Validator::make($data_info, $this->validateRule->getRule('user.login'));
+
         if ($validator->fails()) {
-            return $this->errorBadRequest($validator);
+            return $this->_outError($validator->errors()->all(),'');
         }
+        $res = $this->loginService->getUserInfo($data_info);
+        if($res){
+            return $this->_outSuccess('登录成功','');
+        }else{
+            return $this->_outError('登录失败','');
+        }
+
 
         // 获取所有提交过来的数据
         $result = $request->all();

@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
-use App\Model\Article_content;
-use App\Model\Article;
-use App\Model\Users;
-use App\Model\Admin_interface_menu;
+use App\Models\Article_content;
+use App\Models\Article;
+use App\Models\Users;
+use App\Models\Admin_interface_menu;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
 use App\Http\Controllers\Controller;
@@ -28,7 +28,7 @@ class IndexController extends Controller{
   */
   public function index(){
     $user = session()->all();
-    $user_info = DB::table('users')->where('email','=',$user['email'])->first();
+    $user_info = DB::table('users')->where('user_login','=',$user['user_login'])->first();
     // 如果当前用户不存在，返回登录界面重新登录
     if(!$user_info){
       return redirect('post/form_submit')

@@ -6,11 +6,10 @@
  * 后台登录路由
  */
 // 后台路由组
+Route::get('/admin', 'Login\IndexController@index')->name('admin'); //后台首页登录
+Route::post('is_login', 'Login\IndexController@is_login'); //登录
 Route::group(['middleware' => 'admin'], function () {
     // 后台登录页面路由（后台首页）
-    Route::get('/admin', 'Login\IndexController@index');
-    Route::post('is_login', 'Login\IndexController@is_login'); //登录
-
     Route::get('/admin1', 'Register\HomeController@index')->name('login_user');
 
     Route::get('/admin_index','Admin\IndexController@index')->name('admin_index');
