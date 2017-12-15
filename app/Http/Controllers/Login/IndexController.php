@@ -5,6 +5,9 @@ namespace App\Http\Controllers\Login;
 //use Hash;
 use Validator; //验证类
 use App\Services\LoginService;
+use App\Models\User;
+use App\Models\Role;
+use App\Models\Permission;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
@@ -28,6 +31,24 @@ class IndexController extends Controller
      */
     public function index()
     {
+        $createPost = new Permission();
+        $createPost->name = 'create-post';
+        $createPost->display_name = 'Create Posts';
+        $createPost->description = 'create new blog posts';
+        $createPost->save();
+
+        $editUser = new Permission();
+        $editUser->name = 'edit-user';
+        $editUser->display_name = 'Edit Users';
+        $editUser->description = 'edit existing users';
+        $editUser->save();
+        $owner = new Role();
+        $owner->attachPermission($createPost);
+//等价于 $owner->perms()->sync(array($createPost->id));
+
+        $admin->attachPermissions(array($createPost, $editUser));
+//等价于 $admin->perms()->sync(array($createPost->id, $editUser->id));
+
         return view('login.index');
     }
 

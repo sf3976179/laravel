@@ -9,6 +9,7 @@ class CreateUsersTable extends Migration
     /**
      * Run the migrations.
      *
+     * @need unique注释 默认字段长度太长
      * @return void
      */
     public function up()
@@ -16,7 +17,7 @@ class CreateUsersTable extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->string('email')->unique();
+            //$table->string('email')->unique();
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();
