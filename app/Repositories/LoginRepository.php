@@ -7,11 +7,12 @@ use Hash;
 
 class LoginRepository extends BaseRepository
 {
+    protected $baseModel;
     protected $company;
 
     public function __construct(Users $users)
     {
-//        $this->constructParam = func_get_args();
+        $this->constructParam = func_get_args();
         $this->users = $users;
         $this->baseModel = $this->users;
         $this->baseParam = ['id','name','user_login','user_image','address','user_phone','score','created_at','lastlogin_at'];
@@ -44,5 +45,7 @@ class LoginRepository extends BaseRepository
         }
         return $info;
     }
+
+
 
 }

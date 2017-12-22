@@ -12,6 +12,11 @@ class ValidateRule
             'user_login' => 'required|string|max:20',
             'password' => 'required|string|max:50',
         ],
+        //角色添加
+        'role.add'=>[
+            'name' => 'required|string|max:20',
+            'display_name' => 'required|string|max:50',
+        ],
 
 
         'item.store'=>[

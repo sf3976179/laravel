@@ -109,9 +109,9 @@ class BaseRepository implements BaseRepositoryInterface
         }
 
         $rtn = $this->baseModel->where($where)->first();
-        if ($rtn) {
-            $rtn = $this->transformData($rtn, $this->baseTransformer, $include);
-        }
+//        if ($rtn) {
+//            $rtn = $this->transformData($rtn, $this->baseTransformer, $include);
+//        }
         return $rtn;
     }
 

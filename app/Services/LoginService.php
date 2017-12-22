@@ -12,10 +12,16 @@ class LoginService extends BaseService
         $this->loginRepository = $loginRepository;
     }
 
+    //后台用户登录验证
     public function getUserInfo(array $data)
     {
         return $this->loginRepository->getUserInfo($data);
     }
 
+    //条件查询（find）
+    public function getUserData(array $data)
+    {
+        return $this->loginRepository->getByCondition($data);
+    }
 
 }

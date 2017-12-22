@@ -2,17 +2,21 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Zizaco\Entrust\Traits\EntrustUserTrait;
 
-class Users extends Model
+class Users extends Authenticatable
 {
+    use Notifiable;
+    use EntrustUserTrait;
     protected $connection = 'mysql';
   /**
    * 与模型关联的数据表
    *
    * @var string
    */
-  protected $table = 'users';
+  protected $table = 'user';
   protected $primaryKey = 'id'; //设定主键，默认主键为id
 
 

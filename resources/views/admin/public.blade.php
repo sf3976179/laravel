@@ -91,10 +91,17 @@
                 <h3>菜单列表</h3>
                 <ul class="nav side-menu">
 
-                  <li><a id="test"><i class="fa fa-home"></i> 文章管理 <span class="fa fa-chevron-down"></span></a>
+                  <li><a id="test"><i class="fa fa-clone"></i> 文章管理 <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li><a href="{{ url('/admin_index') }}">文章分类</a></li>
                       <li><a href="{{ url('/article_list') }}">文章编辑</a></li>
+                    </ul>
+                  </li>
+
+                  <li><a><i class="fa fa-sitemap"></i> 权限管理 <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li><a href="{{ url('/role_list') }}">角色管理</a></li>
+                      <li><a href="{{ url('/admin_list') }}">管理员</a></li>
                     </ul>
                   </li>
 
@@ -152,6 +159,7 @@
                 <ul class="nav side-menu">
                   <li><a><i class="fa fa-bug"></i>接口调用模块<span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
+                      <?php if($interface_menu){?>
                       <?php foreach($interface_menu as $k => $v){?>
                         @if (!$v->p_id)
                         <li><a><?php echo isset($v->p_id)? '1':$v->name;?><span class="fa fa-chevron-down"></span></a>
@@ -165,6 +173,7 @@
                           </ul>
                         </li>
                         @endif
+                      <?php }?>
                       <?php }?>
 
 

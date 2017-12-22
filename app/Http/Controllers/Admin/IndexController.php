@@ -3,10 +3,13 @@
 namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
+use App\Services\LoginService;
 use App\Models\Article_content;
 use App\Models\Article;
 use App\Models\Users;
+use App\Models\Role;
 use App\Models\Admin_interface_menu;
+use App\Models\Permission;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
 use App\Http\Controllers\Controller;
@@ -14,9 +17,12 @@ use Illuminate\Support\Facades\Redis;
 use OSS\OssClient;
 
 class IndexController extends Controller{
+    private $loginServie; //login服务容器
 
-    public function __construct()
+    public function __construct(LoginService $loginService)
     {
+        parent::__construct();
+        $this->loginService = $loginService;
         //接口调用菜单
         $interface_menu = Admin_interface_menu::where('id', '>','0' )->get();
         $this->interface_menu = $interface_menu;
@@ -27,14 +33,20 @@ class IndexController extends Controller{
   * 首先判断当前是否登录
   */
   public function index(){
+      $user = Users::where('user_login', '=', 'admin')->first();
+//      $res = $user->ability('admin,owner', 'create-post,edit-user');
+//      $res1 = $user->hasRole(['owner', 'admin']); // true
+//      $res2 = $user->can(['edit-user', 'create-post']); // true
+
     $user = session()->all();
-    $user_info = DB::table('users')->where('user_login','=',$user['user_login'])->first();
+    $user_info = $this->loginService->getUserData(array('user_login'=>$user['user_login']));
     // 如果当前用户不存在，返回登录界面重新登录
     if(!$user_info){
       return redirect('post/form_submit')
                   ->withErrors('请重新登录')
                   ->withInput();
     }
+
     // 查询所有文章分类
     $article = DB::table('article')->get();
     $article_data = array();

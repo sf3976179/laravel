@@ -6,7 +6,6 @@ namespace App\Http\Controllers\Login;
 use Validator; //验证类
 use App\Services\LoginService;
 use App\Models\User;
-use App\Models\Role;
 use App\Models\Permission;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -14,7 +13,7 @@ use App\Http\Controllers\Controller;
 
 class IndexController extends Controller
 {
-    private $LoginServie;
+    private $loginService;
 
 
      public function __construct(LoginService $loginService)
@@ -31,24 +30,6 @@ class IndexController extends Controller
      */
     public function index()
     {
-        $createPost = new Permission();
-        $createPost->name = 'create-post';
-        $createPost->display_name = 'Create Posts';
-        $createPost->description = 'create new blog posts';
-        $createPost->save();
-
-        $editUser = new Permission();
-        $editUser->name = 'edit-user';
-        $editUser->display_name = 'Edit Users';
-        $editUser->description = 'edit existing users';
-        $editUser->save();
-        $owner = new Role();
-        $owner->attachPermission($createPost);
-//等价于 $owner->perms()->sync(array($createPost->id));
-
-        $admin->attachPermissions(array($createPost, $editUser));
-//等价于 $admin->perms()->sync(array($createPost->id, $editUser->id));
-
         return view('login.index');
     }
 
@@ -80,26 +61,26 @@ class IndexController extends Controller
         }
 
 
-        // 获取所有提交过来的数据
-        $result = $request->all();
-
-        // 查询一条数据
-        $user = DB::table('users')->where('email','=',$result['email'])->first();
-        //判断登录当前密码,密码匹配
-        if (Hash::check($result['password'], $user->password))
-        {
-            $request->session()->put('email',$user->email);
-            $request->session()->put('name',$user->name);
-            $request->session()->put('user_id',$user->id);
-            $request->session()->put('user_image_name',$user->user_image);
-            // return redirect()->route('admin_index',['id'=>'2']);
-            // 跳转到后台管理员首页
-            return redirect()->route('admin_index');
-        }else{
-            return redirect('post/form_submit')
-                ->withErrors('请重新登录')
-                ->withInput();
-        }
+//        // 获取所有提交过来的数据
+//        $result = $request->all();
+//
+//        // 查询一条数据
+//        $user = DB::table('users')->where('email','=',$result['email'])->first();
+//        //判断登录当前密码,密码匹配
+//        if (Hash::check($result['password'], $user->password))
+//        {
+//            $request->session()->put('email',$user->email);
+//            $request->session()->put('name',$user->name);
+//            $request->session()->put('user_id',$user->id);
+//            $request->session()->put('user_image_name',$user->user_image);
+//            // return redirect()->route('admin_index',['id'=>'2']);
+//            // 跳转到后台管理员首页
+//            return redirect()->route('admin_index');
+//        }else{
+//            return redirect('post/form_submit')
+//                ->withErrors('请重新登录')
+//                ->withInput();
+//        }
     }
 
     // 后台用户注册页面
