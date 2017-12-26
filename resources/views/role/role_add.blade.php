@@ -53,20 +53,21 @@
                                     <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">角色名称 <span class="required">*</span>
                                     </label>
                                     <div class="col-md-6 col-sm-6 col-xs-12">
-                                        <input style="width:40%;" type="text" name="name" required="required" class="form-control col-md-7 col-xs-12">
+                                        <input style="width:40%;" type="text" name="name" value="<?php echo isset($role_data->name)?$role_data->name:'';?>" required="required" class="form-control col-md-7 col-xs-12">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">关键字 <span class="required">*</span>
                                     </label>
                                     <div class="col-md-6 col-sm-6 col-xs-12">
-                                        <input style="width:40%;" type="text" id="last-name" name="display_name" required="required" class="form-control col-md-7 col-xs-12">
+                                        <input style="width:40%;" type="text" id="last-name" name="display_name" value="<?php echo isset($role_data->display_name)?$role_data->display_name:'';?>" required="required" class="form-control col-md-7 col-xs-12">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">角色描述</label>
                                     <div class="col-md-6 col-sm-6 col-xs-12">
                                         <textarea style="height:110px;" id="middle-name" class="form-control col-md-7 col-xs-12" type="text" name="description">
+                                            <?php echo isset($role_data->description)?$role_data->description:'';?>
                                         </textarea>
                                     </div>
                                 </div>

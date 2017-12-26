@@ -25,18 +25,6 @@ class RoleController extends Controller
     }
 
     /**
-     * 管理员列表
-     *
-     * @access public
-     * @param mixed $request post发送过来的用户数据
-     * @since 2017/12/20 SF
-     * @return json
-     */
-    protected function admin_list(){
-        return view('admin.admin_list')->with('interface_menu',$this->interface_menu);
-    }
-
-    /**
      * 角色列表
      *
      * @access public
@@ -46,10 +34,12 @@ class RoleController extends Controller
      */
     protected function role_list(){
         $where = array(
-            'field' => 
+            'field' => '*',
+            'page_num' => '10'
         );
-        $this->roleService->getRoleList($where);
-        return view('role.role_list')->with('interface_menu',$this->interface_menu);
+        $result = $this->roleService->getRoleList($where); //角色列表
+        return view('role.role_list')->with('role_data',$result)
+                                     ->with('interface_menu',$this->interface_menu);
     }
 
     /**
@@ -65,7 +55,21 @@ class RoleController extends Controller
     }
 
     /**
-     * 添加角色(post)
+     * 编辑角色
+     *
+     * @access public
+     * @param mixed $request post发送过来的用户数据
+     * @since 2017/12/25 SF
+     * @return json
+     */
+    protected function role_edit($role_id){
+        $role_data = $this->roleService->findId($role_id);
+        return view('role.role_add')->with('role_data',$role_data)
+                                    ->with('interface_menu', $this->interface_menu);
+    }
+
+    /**
+     * 添加/编辑角色(post)
      *
      * @access public
      * @param mixed $request post发送过来的用户数据
@@ -90,6 +94,58 @@ class RoleController extends Controller
                 return $this->_outSuccess('添加失败','');
             }
 
+        }
+    }
+
+    /**
+     * 管理员列表
+     *
+     * @access public
+     * @param mixed $request post发送过来的用户数据
+     * @since 2017/12/25 SF
+     * @return data
+     */
+    protected function admin_list(){
+        return view('role.admin_list')->with('interface_menu',$this->interface_menu);
+    }
+
+    /**
+     * 管理员添加
+     *
+     * @access public
+     * @param mixed $request post发送过来的用户数据
+     * @since 2017/12/25 SF
+     * @return data
+     */
+    protected function admin_add(){
+        $condition = array(
+            'field' => array('id','name')
+        );
+        //角色列表
+        $role_data = $this->roleService->getRoleCondition($condition);
+        return view('role.admin_add')->with('role_data',$role_data)
+                                     ->with('interface_menu', $this->interface_menu);
+    }
+
+    /**
+     * 管理员添加（post）
+     *
+     * @access public
+     * @param mixed $request post发送过来的用户数据
+     * @since 2017/12/26 SF
+     * @return data
+     */
+    protected function admin_add_submit(Request $request){
+        $validator = Validator::make($request->input(), $this->validateRule->getRule('admin.add'));
+
+        if ($validator->fails()) {
+            return $this->_outError($validator->errors()->all(),'');
+        }
+        $res = $this->roleService->createAdmin(Input::get());
+        if($res){
+            return $this->_outSuccess('添加成功','');
+        }else{
+            return $this->_outSuccess('添加失败','');
         }
     }
 

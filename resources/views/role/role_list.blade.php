@@ -57,10 +57,9 @@
                                             <input type="checkbox" id="check-all" class="flat">
                                         </th>
                                         <th class="column-title">ID </th>
-                                        <th class="column-title">主标题 </th>
-                                        <th class="column-title">副标题 </th>
-                                        <th class="column-title">内容 </th>
-                                        <th class="column-title">所属分类 </th>
+                                        <th class="column-title">角色名称 </th>
+                                        <th class="column-title">关键字 </th>
+                                        <th class="column-title">角色描述 </th>
                                         <th class="column-title no-link last"><span class="nobr">操作</span>
                                         </th>
                                         <th class="bulk-actions" colspan="7">
@@ -71,26 +70,27 @@
 
                                     <tbody>
 
+                                    @foreach($role_data as $k => $v)
                                     <tr class="even pointer">
                                         <td class="a-center ">
                                             <input type="checkbox" class="flat" name="table_records">
                                         </td>
-                                        <td class=" "></td>
-                                        <td class=" " style="width:15%;"></td>
+                                        <td class=" ">{{ $v->id }}</td>
+                                        <td class=" " style="width:15%;">{{ $v->name }}</td>
                                         <td class=" " style="width:20%;">
                                             <!-- <i class="success fa fa-long-arrow-up"></i> -->
+                                            {{ $v->display_name }}
                                         </td>
                                         <td class=" " style="width:30%;">
-
+                                            {{ $v->description }}
                                         </td>
-                                        <td class=" "></td>
                                         <td class="last" style="width:15%;">
-                                            <a href="{{ url('article_edit') }}/" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> 编辑 </a>
+                                            <a href="{{ url('role_edit') }}/<?php echo $v->id;?>" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> 编辑 </a>
                                             <a href="#" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> 删除 </a>
                                             <!-- <a href="">编辑</a> -->
                                         </td>
                                     </tr>
-
+                                    @endforeach
 
 
 
@@ -104,7 +104,7 @@
                         </div>
 
                     </div>
-                    {{--                    {{ $article->links() }}--}}
+                                        {{ $role_data->links() }}
 
                     <style type="text/css">
                         /*

@@ -83,9 +83,9 @@ class BaseRepository implements BaseRepositoryInterface
     public function getById($id, $include='')
     {
         $rtn = $this->baseModel->find($id);
-        if ($rtn) {
-            return $this->transformItemData($rtn, $this->baseTransformer, $include);
-        }
+//        if ($rtn) {
+//            return $this->transformItemData($rtn, $this->baseTransformer, $include);
+//        }
         return $rtn;
     }
 
@@ -152,8 +152,8 @@ class BaseRepository implements BaseRepositoryInterface
         } else {
             $data = $build->paginate($page_num);
         }
-
-        return $this->transformCollectionData($data, $this->baseTransformer, $include);
+        return $data;
+//        return $this->transformCollectionData($data, $this->baseTransformer, $include);
     }
 
     public function deleteById($id)

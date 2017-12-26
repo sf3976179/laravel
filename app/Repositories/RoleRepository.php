@@ -18,4 +18,23 @@ class RoleRepository extends BaseRepository
         $this->baseParam = ['id', 'name', 'display_name', 'description'];
         $this->baseTransformer = 'role';
     }
+
+    //角色列表
+    public function getRoleCondition($input, $include=''){
+        $where = [];
+        $field = isset($input['field'])?$input['field']:'*';
+        //过滤条件
+        foreach ($this->baseParam as $param) {
+                isset($input[$param]) ? $where[$param] = $input[$param] : null;
+        }
+        $rtn = $this->baseModel->where('name','!=','admin')->where($where)->get($field);
+        return $rtn;
+    }
 }
+
+
+
+
+
+
+

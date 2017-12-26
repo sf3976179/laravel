@@ -153,76 +153,30 @@ class IndexController extends Controller{
               ]);
 
         }else{
-        // echo $_POST;
-
             $alioss = config('alioss'); //oss配置数据
             $ossClient = new OssClient($alioss['AccessKeyId'],$alioss['AccessKeySecret'],$alioss['ossServer']);
-//
+
             try {
                 $options = array(
                     OssClient::OSS_FILE_DOWNLOAD => $_FILES['mypic']['name'],
                     OssClient::OSS_PROCESS => "image/watermark,text_SGVsbG8g5Zu-54mH5pyN5YqhIQ"
                 );
                 $ossClient = new OssClient($alioss['AccessKeyId'],$alioss['AccessKeySecret'],$alioss['ossServer']);
-                $result = $ossClient->multiuploadFile($alioss['BucketName'],'oss_huadong1/'.$_FILES['mypic']['name'],$_FILES['mypic']['tmp_name'],$options);
+                $name = uniqid().'_'.$_FILES['mypic']['name']; //定义上传文件名称
+                $result = $ossClient->multiuploadFile($alioss['BucketName'],'oss_huadong1/'.$name,$_FILES['mypic']['tmp_name'],$options);
+                //获取上传成功后的文件
+                $data = ($result !== 'null')?"http://".$alioss['BucketName'].'.'.$alioss['ossServer'].'/oss_huadong1/'.$name:false;
 
-//                $ossClient->uploadFile($alioss['BucketName'],'oss_huadong1/'.$_FILES['mypic']['name'],$_FILES['mypic']['tmp_name']);
-
-//                $res = $ossClient->getObject($alioss['BucketName'],'oss_huadong1/'.$_FILES['mypic']['name'],$options);
-//                $ossClient->deleteObject($alioss['BucketName'],'oss_huadong1/'.$_FILES['mypic']['name']);
+                if($data){
+                    return $this->_outSuccess('上传成功',$data);
+                }else{
+                    return $this->_outError('上传失败',$data);
+                }
             } catch (OssException $e) {
                 print $e->getMessage();
             }
-
-
-
-
-//          $picname = $_FILES['mypic']['name'];
-//          $picsize = $_FILES['mypic']['size'];
-//          if ($picname != "") {
-//              if ($picsize > 5120000) { //限制上传大小
-//                  echo json_encode('图片大小不能超过5000k');
-//                  exit;
-//              }
-//              $type = strstr($picname, '.'); //限制上传格式
-//              if($type != ".psd" && $type != ".png" && $type != ".swf" && $type != ".jpg" && $type != ".zip" && $type != ".jpeg" && $type != ".svg"){
-//                  echo json_encode('图片格式不对！');
-//                  exit;
-//              }
-//              $rand = rand(100, 999);
-//              $pics = date("YmdHis") . $rand . $type; //命名图片名称
-//              //上传路径
-//              // $pic_path = __PUBLIC__.$pics;
-//              $pic_path1 = $_SERVER['DOCUMENT_ROOT'].'/laravel/public/printing/'.$pics;
-//              $pic_path = 'http://'.$_SERVER['SERVER_NAME'].'/laravel/public/printing/'.$pics;
-//              move_uploaded_file($_FILES['mypic']['tmp_name'], $pic_path1);
-//              // $_SESSION['print_path'] = $pic_path;
-//              // $_SESSION['print_number'] = $pics;
-//
-//
-//
-//
-//          }
-//          $size = round($picsize/1024,2); //转换成kb
-//          $arr = array(
-//              'name'=>$pics,
-//              'pic'=>$pics,
-//              'size'=>$size,
-//              'print_path'=>$pic_path,
-//              'print_number'=>$pics,
-//          );
-//          echo json_encode($arr); //输出json数据
-
-
-
-
-
-
-
-
-
         }
-		}
+    }
 
     // 文章编辑
     public function article_edit($id){

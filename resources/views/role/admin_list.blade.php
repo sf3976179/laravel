@@ -7,7 +7,7 @@
         <div class="">
             <div class="page-title">
                 <div class="title_left">
-                    <h3>权限管理 <small>管理员信息</small></h3>
+                    <h3>管理员 <small>管理员信息</small></h3>
                 </div>
 
                 <div class="title_right">
@@ -28,7 +28,7 @@
                 <div class="col-md-12 col-sm-12 col-xs-12">
                     <div class="x_panel">
                         <div class="x_title">
-                            <h2>文章信息 <small>点击查看文章信息详情</small></h2>
+                            <h2>管理员列表 <small>管理员信息操作</small></h2>
                             <ul class="nav navbar-right panel_toolbox">
                                 <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                                 </li>
@@ -48,7 +48,7 @@
                         </div>
 
                         <div class="x_content">
-                            <a href="{{ url('/article_add') }}" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> 增加 </a>
+                            <a href="{{ url('/admin_add') }}" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> 管理员添加 </a>
                             <a href="#" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> 删除 </a>
                             <div class="table-responsive">
                                 <table class="table table-striped jambo_table bulk_action">

@@ -22,9 +22,6 @@ Route::group(['middleware' => 'admin'], function () {
     //文章编辑
     Route::get('/article_edit/{id}','Admin\IndexController@article_edit');
 
-    // 图片上传
-    Route::post('/file_upload','Admin\IndexController@ajaxfileupload')->name('file_upload');
-
     // 会员组（查看会员）
     Route::get('/users','Admin\IndexController@users_list')->name('users');
     // 编辑会员
@@ -35,3 +32,6 @@ Route::group(['middleware' => 'admin'], function () {
     Route::get('/home_edit','Admin\IndexController@index_setting');
 
 });
+
+    // 图片上传
+    Route::post('/file_upload','Admin\IndexController@ajaxfileupload')->name('file_upload');

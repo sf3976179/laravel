@@ -17,6 +17,14 @@ class ValidateRule
             'name' => 'required|string|max:20',
             'display_name' => 'required|string|max:50',
         ],
+        //管理员添加
+        'admin.add'=>[
+            'name' => 'required|string|max:30',
+            'user_login' => 'required|string|max:20',
+            'password' => 'required|string',
+            'user_phone' => 'required',
+            'role_id' => 'required|array'
+        ],
 
 
         'item.store'=>[
