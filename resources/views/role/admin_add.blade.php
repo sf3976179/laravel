@@ -63,13 +63,14 @@
                                             <!-- CSRF保护 -->
                                             {{ csrf_field() }}
                                             <input id="fileupload" type="file" name="mypic" style="width:16.7rem;height:12.25rem;top:-12.3rem;">
-                                            <input type="hidden" name="user_img">
                                     </div>
                                 </div>
                             </form>
 
                             <form id="form_submit" method="post" data-parsley-validate class="form-horizontal form-label-left" action="{{ route('admin_add_submit') }}">
                                 {{ csrf_field() }}
+                                {{-- 图片地址 --}}
+                                <input type="hidden" name="user_img">
                                 <div class="form-group" style="height:34px;">
                                     <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">呢称 <span class="required">*</span>
                                     </label>
@@ -175,8 +176,8 @@
                                 //表单提交
                                 $('#role_add_submit').on('click', function () {
                                     $("#role_add_submit").attr('type', 'submit');
-                                    $("#role_add_submit").submit();
-
+                                    var result = $("#role_add_submit").submit();
+                                    console.log(result);
                                         {{--// 查询二级分类--}}
                                         {{--$.post("{{ URL::to('role_add') }}", {--}}
                                             {{--'_token': '{{csrf_token()}}',--}}

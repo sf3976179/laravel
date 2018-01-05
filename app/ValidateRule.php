@@ -23,7 +23,7 @@ class ValidateRule
             'user_login' => 'required|string|max:20',
             'password' => 'required|string',
             'user_phone' => 'required',
-            'role_id' => 'required|array'
+            'role_id' => 'required|array',
         ],
 
 

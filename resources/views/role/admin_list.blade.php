@@ -58,10 +58,10 @@
                                             <input type="checkbox" id="check-all" class="flat">
                                         </th>
                                         <th class="column-title">ID </th>
-                                        <th class="column-title">主标题 </th>
-                                        <th class="column-title">副标题 </th>
-                                        <th class="column-title">内容 </th>
-                                        <th class="column-title">所属分类 </th>
+                                        <th class="column-title">呢称 </th>
+                                        <th class="column-title">关键字 </th>
+                                        <th class="column-title">描述 </th>
+                                        <th class="column-title">拥有权限 </th>
                                         <th class="column-title no-link last"><span class="nobr">操作</span>
                                         </th>
                                         <th class="bulk-actions" colspan="7">

@@ -23,7 +23,7 @@ class Users extends Authenticatable
   public $timestamps = false;
 
   //开启白名单字段
-  protected $fillable = ['id','name','user_login','user_image','address','user_phone','score','created_at','lastlogin_at'];
+  protected $fillable = ['id','name','user_login','password','user_image','address','user_phone','score','created_at','lastlogin_at'];
 
 
 
