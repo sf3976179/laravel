@@ -57,11 +57,11 @@
                                         <th>
                                             <input type="checkbox" id="check-all" class="flat">
                                         </th>
-                                        <th class="column-title">ID </th>
+                                        <th class="column-title">管理员ID </th>
                                         <th class="column-title">呢称 </th>
                                         <th class="column-title">关键字 </th>
                                         <th class="column-title">描述 </th>
-                                        <th class="column-title">拥有权限 </th>
+
                                         <th class="column-title no-link last"><span class="nobr">操作</span>
                                         </th>
                                         <th class="bulk-actions" colspan="7">
@@ -72,26 +72,39 @@
 
                                     <tbody>
 
-                                        <tr class="even pointer">
-                                            <td class="a-center ">
-                                                <input type="checkbox" class="flat" name="table_records">
-                                            </td>
-                                            <td class=" "></td>
-                                            <td class=" " style="width:15%;"></td>
-                                            <td class=" " style="width:20%;">
-                                            <!-- <i class="success fa fa-long-arrow-up"></i> -->
-                                            </td>
-                                            <td class=" " style="width:30%;">
+                                        @foreach($admin_data as $k => $v)
+                                                <tr class="even pointer">
+                                                    <td class="a-center ">
+                                                        <input type="checkbox" class="flat" name="table_records" value="<?php echo $k;?>">
+                                                    </td>
+                                                    <td class=" "><?php echo $v['user_id'];?></td>
+                                                    <td class=" " style="width:15%;"><?php echo $v['name'];?></td>
+                                                    <td class=" " style="width:20%;">
+                                                        <?php
+                                                            for($i=0;$i<=count($v['display_name'])-1;$i++){
+                                                                if($v['display_name'][$i]){
+                                                                    echo $v['display_name'][$i].'</br>';
+                                                                }
+                                                            }
+                                                        ?>
+                                                    </td>
 
-                                            </td>
-                                            <td class=" "></td>
-                                            <td class="last" style="width:15%;">
-                                                <a href="{{ url('article_edit') }}/" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> 编辑 </a>
-                                                <a href="#" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> 删除 </a>
-                                                <!-- <a href="">编辑</a> -->
-                                            </td>
-                                        </tr>
-
+                                                    <td class=" ">
+                                                        <?php
+                                                        for($i=0;$i<=count($v['description'])-1;$i++){
+                                                            if($v['description'][$i]){
+                                                                echo $v['description'][$i].'</br>';
+                                                            }
+                                                        }
+                                                        ?>
+                                                    </td>
+                                                    <td class="last" style="width:15%;">
+                                                        <a href="{{ url('article_edit') }}/" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> 编辑 </a>
+                                                        <a href="#" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> 删除 </a>
+                                                        <!-- <a href="">编辑</a> -->
+                                                    </td>
+                                                </tr>
+                                        @endforeach
 
 
 

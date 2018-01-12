@@ -54,6 +54,7 @@ class IndexController extends Controller
             return $this->_outError($validator->errors()->all(),'');
         }
         $res = $this->loginService->getUserInfo($data_info);
+        
         if($res){
             return $this->_outSuccess('登录成功','');
         }else{

@@ -8,7 +8,6 @@ use Hash;
 class LoginRepository extends BaseRepository
 {
     protected $baseModel;
-    protected $company;
 
     public function __construct(Users $users)
     {
@@ -37,7 +36,7 @@ class LoginRepository extends BaseRepository
             //$info = $this->transformCollectionData($rtn, $this->baseTransformer, $include);
             session(['user_login' => $rtn->user_login]);
             session(['name' => $rtn->name]);
-            session(['user_id' => $rtn->user_id]);
+            session(['user_id' => $rtn->id]);
             session(['user_image_name' => $rtn->user_image_name]);
             $info = '1';
         }else{

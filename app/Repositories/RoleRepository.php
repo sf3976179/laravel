@@ -73,6 +73,7 @@ class RoleRepository extends BaseRepository
                      'r.user_id',
                      'r.role_id',
                      'o.id',
+                     'o.display_name',
                      'o.description'
                 )
             ->where('u.user_type','=','2')
@@ -80,18 +81,16 @@ class RoleRepository extends BaseRepository
             ->toArray();
         //数据整理
         $column = array_column($res['data'],'user_id');
-
         $result = array();
         //数据整理
         foreach($res['data'] as $k => $v){
-            $result[$v->user_id][] = $v;
-            $result[$v->user_id]
+                    $result[$v->user_id]['role_id'][] = $v->id; //角色id
+                    $result[$v->user_id]['name'] = $v->name; //会员呢称
+                    $result[$v->user_id]['user_id'] = $v->user_id; //会员id
+                    $result[$v->user_id]['display_name'][] = $v->display_name; //角色关键字
+                    $result[$v->user_id]['description'][] = $v->description; //角色描述
         }
-
-
-
-//        $rtn = $this->baseModel->where('name','!=','admin')->where($where)->get($field);
-//        return $rtn;
+        return $result;
     }
 
 

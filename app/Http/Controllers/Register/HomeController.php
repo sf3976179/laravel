@@ -63,7 +63,6 @@ class HomeController extends Controller
       // 获取所有提交过来的数据
       $result = $request->all();
       // DB::insert('insert into users (name,email,password) values (11',$result['email'],$result['password'].')', [1, 'Dayle@163.com','123456']);
-
       // 查询一条数据
       $user = DB::table('users')->where('user_login','=',$result['email'])->first();
       //判断登录当前密码,密码匹配

@@ -15,6 +15,8 @@ Route::group(['middleware' => 'admin'], function () {
     Route::get('/admin_index','Admin\IndexController@index')->name('admin_index');
     // 文章管理
     Route::get('/article_list','Admin\IndexController@article_list');
+    //redis测试
+    Route::get('/test','Admin\IndexController@test');
     // 文章增加
     Route::get('/article_add','Admin\IndexController@add_article');
     Route::post('/article_add','Admin\IndexController@add_article1')->name('article_submit');

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Services\LoginService;
+use App\Services\ArticleService; //文章服务容器
 use App\Models\Article_content;
 use App\Models\Article;
 use App\Models\Users;
@@ -18,11 +19,13 @@ use OSS\OssClient;
 
 class IndexController extends Controller{
     private $loginServie; //login服务容器
+    private $articleService; //文章发布
 
-    public function __construct(LoginService $loginService)
+    public function __construct(LoginService $loginService,ArticleService $articleService)
     {
         parent::__construct();
         $this->loginService = $loginService;
+        $this->articleService = $articleService; //文章
         //接口调用菜单
         $interface_menu = Admin_interface_menu::where('id', '>','0' )->get();
         $this->interface_menu = $interface_menu;
@@ -76,6 +79,7 @@ class IndexController extends Controller{
            exit;
        }
 
+
     // $result=Article_content::where('id', '>','0' )->get()->toArray();
     $result=Article_content::where('article_id', '>','0' )->paginate('10');
     foreach ($result as $k1 => $v1){
@@ -88,17 +92,17 @@ class IndexController extends Controller{
     return view('admin.article_list')->with('article',$result)->with('interface_menu',$this->interface_menu);
   }
 
-  // 文章增加详情页
+  /**
+   * 文章增加
+   *
+   * @access public
+   * @param mixed $request post发送过来的用户数据
+   * @since 2017/12/8 SF
+   * @return json
+   */
   public function add_article(Request $request){
     $result = $request->all();
-    if($request->isMethod('post')){
-      var_dump($request->all());die;
-    }
-    if($request->all()){
-      if($result['a'] == '1'){
-        return json_encode('1');
-      }
-    }
+
     $article = Article::where('id', '>','0' )->get();
     // 增加文章
     return view('admin.article_add')->with('article',$article)->with('interface_menu',$this->interface_menu);
@@ -115,21 +119,16 @@ class IndexController extends Controller{
           exit(json_encode($article_list));
         }else if($result['type'] == 'article_add'){
           //文章增加
-          $user = session()->all();
-          $data = array(
-            'id' => $user['user_id'],
-            'main_title' => $result['first_title'],
-            'image_name' => $result['image_upload'],
-            'subtitle' => $result['second_titile'],
-            'ac_id' => $result['article_list1'].','.$result['article_list2'],
-            'ac_tag' => $result['tags_1'],
-            'ac_display' => $result['display'],
-            'content' => $result['editorValue'],
-            'add_time' => time()
-          );
+          $this->articleService->addArticle($result);
 
-          if(Article_content::create($data)){
-            return $data = array('message'=>'文章增加成功');
+          //
+          if(1){
+
+
+
+
+//              Redis::publish('test-channel', json_encode(['foo' => 'bar']));
+//            return $data = array('message'=>'文章增加成功');
           }else{
             return $data = array('message'=>'文章增加失败');
           }
@@ -250,7 +249,6 @@ class IndexController extends Controller{
     public function test(){
         $test = 'test';
         Redis::set($test,'123');
-
 //      Redis::del($test);
         $a = Redis::get($test);
 
@@ -269,10 +267,7 @@ class IndexController extends Controller{
          * */
         $posts = [
             'name' => '张三',
-            'age' => '18',
-            'aa' => '11',
-            'bb' => '22',
-            'cc' => '33'
+            'age' => '18'
         ];
 
         foreach ($posts as $post) {
@@ -296,7 +291,7 @@ class IndexController extends Controller{
 
         foreach($data as $k =>$v){
             //入队列
-            Redis::rPush("call_log",$v."%".$now_time);
+            Redis::rPush("call_log",$v.'/'.$now_time);
         }
 
         $length = Redis::lLen('call_log');
