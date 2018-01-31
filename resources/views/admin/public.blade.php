@@ -122,12 +122,24 @@
                     </ul>
                   </li>
 
-                  <li><a><i class="fa fa-edit"></i> Forms <span class="fa fa-chevron-down"></span></a>
+                  <li><a><i class="fa fa-edit"></i> 模块练习 <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li><a href="general_elements.html">General Form</a></li>
-                      <li><a href="general_elements.html">Advanced Components</a></li>
+                      <li><a>redis 模块<span class="fa fa-chevron-down"></span></a>
+                        <ul class="nav child_menu">
+                          <li class="sub_menu"><a href="{{ url('/redis') }}">redis操作</a>
+                          </li>
+                          <li><a href="#level2_1">会员推荐</a>
+                          </li>
+                          <li><a href="#level2_2">会员统计</a>
+                          </li>
+                        </ul>
+                      </li>
+                      <li><a href="general_elements.html">权限管理</a></li>
                     </ul>
                   </li>
+
+
+
                   <li><a><i class="fa fa-desktop"></i> 首页设置 <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li><a href="{{ url('/home_edit') }}">说说、轮播图、链接</a></li>

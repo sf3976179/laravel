@@ -39,11 +39,8 @@ class RedisSubscribe extends Command
     {
         Redis::subscribe(['up_article'],function($message){
             $b = json_decode($message);
-            //存入日志表
-            echo $b->up_id;
-            echo '<\br>';
-
-
+            //存入日志
+            file_put_contents('1.txt',$b->user_id);
 
 
         });
