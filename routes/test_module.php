@@ -9,3 +9,7 @@
 //Route::post('/article_add','Admin\IndexController@add_article1')->name('article_submit');
 Route::get('/redis','Test\RedisController@index');
 Route::post('/youxu_redis','Test\RedisController@youxu_redis');
+
+//并发模块
+Route::get('/bingfa','Test\BingfaController@index')->name('bingfa_index'); //首页
+Route::post('/bingfa_add','Test\BingfaController@bingfa')->name('bingfa_add1'); //批量插入

@@ -40,7 +40,7 @@ require_once __DIR__ . '/admin_login.php'; //后台登录路由
 require_once __DIR__ . '/admin_interface.php'; //后台接口调用
 require_once __DIR__ . '/role.php'; //后台管理员分配
 require_once __DIR__ . '/home.php'; //前台路由
-require_once __DIR__ . '/test_redis.php'; //练习-redis路由
+require_once __DIR__ . '/test_module.php'; //模块练习
 
 
 

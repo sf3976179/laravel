@@ -134,7 +134,16 @@
                           </li>
                         </ul>
                       </li>
-                      <li><a href="general_elements.html">权限管理</a></li>
+                      <li><a>并发处理<span class="fa fa-chevron-down"></span></a>
+                        <ul class="nav child_menu">
+                          <li class="sub_menu"><a href="{{ route('bingfa_index') }}">并发实例</a>
+                          </li>
+                          <li><a href="#level2_1">会员推荐</a>
+                          </li>
+                          <li><a href="#level2_2">会员统计</a>
+                          </li>
+                        </ul>
+                      </li>
                     </ul>
                   </li>
 
